@@ -7,5 +7,9 @@
 
 class String
   def every_other_char
+    arr = self.split("")
+    arr_two = []
+    arr.each_with_index { |element,index| arr_two << element if index.even? }
+    arr_two.join
   end
 end
