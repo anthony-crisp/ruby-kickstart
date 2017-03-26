@@ -17,3 +17,13 @@
 # match_maker true,  true,  true, true, nil     # => [false, true]
 # match_maker true,  true,  true, 0, nil        # => [false, true]
 
+def match_maker(bool, *args)
+  new_arr = Array.new
+  args.each_slice(2) do |a, b|
+    a = !!a
+    b = !!b
+    new_bool = bool ? a != b : a == b
+    new_arr << new_bool
+  end
+  new_arr
+end
