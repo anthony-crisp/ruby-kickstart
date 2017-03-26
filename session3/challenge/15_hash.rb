@@ -38,3 +38,12 @@
 # middle head                        # => 3
 # head = {:data => 6, :next => head}
 # middle head                        # => 3
+
+
+def middle(list)
+    mid = list[:data] / 2
+    mid.times do
+    list = list[:next]
+  end
+list[:data]
+end
