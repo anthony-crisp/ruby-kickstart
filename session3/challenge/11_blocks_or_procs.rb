@@ -30,5 +30,7 @@
 # end
 
 
-def array_init
+def array_init(size = 5, &block)
+  block = block || Proc.new { |i| String(100 * i) }
+  Array.new(size, &block)
 end
