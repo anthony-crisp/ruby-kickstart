@@ -29,5 +29,13 @@
 # create it from scratch :)
 
 
-def pathify
+def pathify(new_hash = Hash.new)
+    return new_hash.map { |with_path| '/' + with_path } if new_hash.is_a? Array
+      new_arr = Array.new
+ 	    new_hash.each do |k,v|
+ 	      key = '/' + k
+ 	      prev_paths = pathify(v)
+ 	      prev_paths.each { |x| new_arr << (key + x) }
+      end
+ new_arr
 end
