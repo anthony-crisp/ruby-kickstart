@@ -28,5 +28,17 @@
 # shared [1,2,:c], ['a','b',:c]      # => [{1=>[true, nil], 2=>[true, nil], :c=>[true, true], "a"=>[nil, true], "b"=>[nil, true]}, [:c]]
 # shared [1,2,3], [3,2,1]            # => [{1=>[true, true], 2=>[true, true], 3=>[true, true]}, [1, 2, 3]]
 
-def shared(a, b)
+def shared(arr_a, arr_b)
+    new_hash = Hash.new
+    union = arr_a + arr_b
+    union.each do |v|
+      new_arr = Array.new
+      arr_a.include?(v) ? new_arr[0] = true : new_arr[0] = nil
+      arr_b.include?(v) ? new_arr[1] = true : new_arr[1] = nil
+      new_hash[v] = new_arr
+  end
+    arr_two = union.uniq.find_all { |x| arr_a.include?(x) && arr_b.include?(x) }
+    arr_three = Array.new
+    arr_three << new_hash << arr_two
+    arr_three
 end
