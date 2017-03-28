@@ -21,11 +21,18 @@
 # problem_14 2,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => true
 # problem_14 3,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => false
 
-def problem_14
+def problem_14(*args)
+  hash = args[-1].is_a?(Hash) ? args.pop : {}
+  method = hash[:problem] || :count_clumps
+
+  send(method, *args)
 end
 
-def same_ends
+def same_ends(*args)
+  n = args.shift
+  args[0, n] == args[-n, n]
 end
 
-def count_clumps
+def count_clumps(*args)
+  args.chunk_while(&:==).count { |x| x.size >= 2 }
 end
