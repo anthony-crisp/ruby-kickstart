@@ -18,10 +18,13 @@
 # if the parameter is greater than 99, set the number of beer bottles to 99
 # Then make a public method called print_song that outputs all stanzas from the number of bottles of beer down to zero.
 # Add any additional methods you find helpful.
-require 'Linguistics'
+#require 'pry'
+# binding.pry
+require 'linguistics'
 Linguistics::use(:en)
 
 class BeerSong
+
 
   attr_accessor :beers
 
@@ -32,30 +35,32 @@ class BeerSong
     end
 
     def print_song
-      beers.downto 1 do |i|
-        print_stanza(i)
+      if beers.zero?
+        String.new
+      else
+        beers.downto 1 do |i|
+          print_stanza(i)
+        end
       end
     end
 
     def print_stanza(n)
-      if n.zero?
-        String.new
-      else
-        puts "#{n.bottle.capitalize} of beer on the wall,"    ,
-             "#{n.bottle} of beer,"                           ,
-             "Take one down, pass it around,"                 ,
-             "#{(n-1).bottle} of beer on the wall."
-      end
+      puts "#{bottle(n).capitalize} of beer on the wall,"    ,
+           "#{bottle(n)} of beer,"                           ,
+           "Take one down, pass it around,"                 ,
+           "#{bottle(n-1)} of beer on the wall."
     end
 
     def bottle(n)
-      case self
+      case n
         when 0
            "no more bottles"
         when 1
            "one bottle"
         else
-           "#{self.en.numwords} bottles"
+           "#{n.en.numwords} bottles"
         end
       end
     end
+
+#binding.pry
