@@ -52,5 +52,16 @@
 #   end
 # end       # => ["a", "m", "r", 1, 3, 4, 9, 2.5, 9.0, 25.8]
 
-def your_sort
+def your_sort(arr, &block)
+    block = block || Proc.new { |a, b| a <=> b }
+    if arr.empty? || arr.count == 1
+      arr
+    else
+    arr.each_index do |a|
+      arr.each_index do |b|
+        comp = block.call(arr[a], arr[b])
+        arr[a], arr[b] = arr[b], arr[a] if comp < 0
+      end
+    end
+  end
 end
