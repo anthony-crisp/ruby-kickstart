@@ -63,4 +63,49 @@
 
 # date docs are at: http://ruby-doc.org/core/classes/Date.html
 # don't spend too much time worrying about them :)
-require 'date'
+
+require 'date' #Requires Ruby's date class
+
+
+class User
+
+  attr_accessor :username, :blogs #getter and setter methods for user and blogs.
+
+  def initialize(username) #Initializes an instance of user with a username.
+    self.username = username #Still trying to wrap my head aroud the difference between self.username and @username.
+    self.blogs    = [] #Initializes an empty array and assigns it to the instance variable blogs.
+  end
+
+  def add_blog(date, text) #Defines the add_blog method with two arguments date and text
+    added_blog = Blog.new(date, self, text) #Assigns a new instance of Blog to the variable added_blog.
+    blogs << added_blog #Pushes the new instance of Blog to the empty array initialized above.
+    self.blogs = blogs.sort_by { |blog| blog.date }.reverse #Sorts the blogs by date and reverses them.
+    added_blog #Returns added_blog
+  end
+end
+
+
+
+class Blog
+  attr_accessor :date, :user, :text #getter and setter methods for date, user and text
+
+  def initialize(date, user, text) #Initializes a new instance of Blog with three instance variables - date, user and text.
+    self.date = date
+    self.user = user
+    self.text = text
+  end
+
+  def summary #Defines the method summary
+    text.split[0..9].join(' ') #splits the text string by words and returns the first 9 values by index and joins them back to a string.
+  end
+
+  def entry
+    "#{user.username} #{date}\n#{text}" #Returns a two line string with the username and date on the first line and the text below.
+  end
+
+  def ==(other) #Still not entirley sure how this works, need to read up more, haven't seen the comparison operator defined as a method before.
+      date == other.date &&
+      user == other.user &&
+      text == other.text
+  end
+end
