@@ -26,14 +26,19 @@
 
 
 class Person
-  attr_accessor :name
 
-  def initialize(&initializer)
-    @initializer = initializer
-    initializer.call self
+  attr_accessor :name, :age, :quote #getter and setter methods
+
+  def initialize(options=Hash.new, &initializer) #Initializes a new instance of Person with a hash and a block.
+    self.name    = options[:name] #sets a key in the hash to name and a value to name passed on initialize.
+    self.age     = options[:age] #sets the next key in the hash to age and a value to age passed on initialize.
+    self.quote   = options[:quote] #sets the next key in the hash to quote and a value to quote passed on initialize.
+    @initializer = (initializer || Proc.new { |person| }) #Either a block is passed or a new Proc is created that re-calls the Person initialize method.
+    reinit #Returns the result of the reinit method defined bellow.
   end
 
+
   def reinit
-    @initializer.call self
+    @initializer.call self #Either calls the block passed or calls the Proc and re-initializes the instance of Person.
   end
 end
