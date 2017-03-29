@@ -31,25 +31,33 @@ class HTMLTag
     :monospace  => '"Courier New", "Lucida Console"'
   }
 
-  attr_accessor :name, :innerHTML, :options
+  COLORS = { #Setting a constant COLORS (Americanised - lol) that can be accesed by the class.
+    :red   => '#FF0000',
+    :green => '#00FF00',
+    :blue  => '#0000FF',
+  }
 
-  # options: :multiline should be true or false
-  def initialize(name, innerHTML, options)
-    @name, @innerHTML, @options = name, innerHTML, options
-  end
+  attr_accessor :name, :innerHTML, :font, :color, :multiline #getter and setter methods
 
-  def font
-    font = options[:font]  #  one of :serif, :sans_serif, or :monospace
-    FONTS[font]
+
+  def initialize(name, innerHTML, options=Hash.new)
+    @name, @innerHTML = name, innerHTML
+    self.font      = FONTS[options[:font]]
+    self.color     = COLORS[options[:color]]
+    self.multiline = options.fetch :multiline, false
   end
 
   def style
-    return nil unless options[:font]
-    "style='font-family:#{font}'"
+    return nil unless font || color #Returns a string stating what the font or color is depending on whether they were set or not.
+    to_return = "style='"
+    to_return << "font-family:#{font};" if font
+    to_return << "color:#{color};"      if color
+    to_return << "'"
+    to_return
   end
 
   def to_s
-    line_end = if options[:multiline] then "\n" else "" end
+    line_end = if options[:multiline] then "\n" else "" end #Returns a string containing the data, if its passed the :multiline option it will print a new line esle an empty string.
     "<#{name} #{style}>#{line_end}"  \
     "#{innerHTML.chomp}#{line_end}"  \
     "</#{name}>\n"
